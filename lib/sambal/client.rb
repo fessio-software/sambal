@@ -18,7 +18,8 @@ module Sambal
         password: false,
         port: 445,
         timeout: 10,
-        columns: 80
+        columns: 80,
+        protocol: nil
       }
 
       options = default_options.merge(user_options)
@@ -34,6 +35,7 @@ module Sambal
         option_flags = "-W \"#{options[:domain]}\" -U \"#{options[:user]}\""
         option_flags = "#{option_flags} -I #{options[:ip_address]}" if options[:ip_address]
         option_flags = "#{option_flags} -p #{options[:port]} -s /dev/null"
+        option_flags = "#{option_flags} -m #{options[:protocol]}" if options[:protocol]
         password = options[:password] ? "'#{options[:password]}'" : "--no-pass"
         command = "COLUMNS=#{options[:columns]} smbclient \"//#{options[:host]}/#{options[:share]}\" #{password}"
 
